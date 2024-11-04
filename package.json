@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/FernandoMercado-Dev/web_BienesRaices-ES/issues"
   },
-  "homepage": "https://github.com/FernandoMercado-Dev/web_BienesRaices-ES#readme"
+  "homepage": "https://github.com/FernandoMercado-Dev/web_BienesRaices-ES#readme",
+  "devDependencies": {
+    "sass": "^1.80.6"
+  }
 }
