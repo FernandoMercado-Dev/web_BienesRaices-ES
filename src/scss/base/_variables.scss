@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+// Fuente de letra
+$fuente_principal: "Lato", serif;
+
+// Tamaños de fuente de letra
+$delgada: 300;
+$regular: 400;
+$bold: 600;
+$black: 900;
+
+// Tamaños de Media Queries
+$telefono: 480px;
+$tablet: 768px;
+$descktop: 1024px;
+
+// Colores
+$negro: #000;
+$amarillo: #E08709;
+$verde: #71B100;
+$blanco: #FFF;
+$gris: #E1E1E1;
+$grisOscuro: #333;
+
+// Separaciones
+$separacion: 5rem;
