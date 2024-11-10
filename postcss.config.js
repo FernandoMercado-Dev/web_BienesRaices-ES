@@ -2,9 +2,9 @@
 module.exports = {
     plugins: [
         // importar autoprefixer
-        require('gulp-autoprefixer'),
+        require('autoprefixer'),
         // importar cssnano
-        require('gulp-cssnano')({
+        require('cssnano')({
             preset: 'default'
         })
     ]
