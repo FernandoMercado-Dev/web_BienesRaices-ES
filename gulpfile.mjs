@@ -29,3 +29,5 @@ function compilarSCSS() {
     // //////
     .pipe(dest('build/css'))
 }
+
+export default series(compilarSCSS);
