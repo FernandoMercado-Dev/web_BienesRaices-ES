@@ -72,4 +72,12 @@ Section:
 git clone https://github.com/FernandoMercado-Dev/web_BienesRaices-ES.git
 ```
 2. Navigate to the project folder
-3. Open the index.html file
+3. Install the project dependencies (Node.js and npm required):
+```bash
+npm install
+```
+4. In case of a change, to compile and run the project, use the following command:
+```bash
+npm run dev
+```
+5. Open the index.html file
