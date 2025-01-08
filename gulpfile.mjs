@@ -14,7 +14,7 @@ import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 
 // IMG
-import imagemin from 'gulp-imagemin';
+// import imagemin from 'gulp-imagemin';
 import cache from 'gulp-cache';
 import notify from 'gulp-notify';
 import webp from 'gulp-webp';
@@ -70,7 +70,9 @@ function compilarJS() {
 }
 
 // Optimizar imagenes
-function optImagenes() {
+async function optImagenes() {
+    const imagemin = (await import('gulp-imagemin')).default;
+
     return src(paths.img)
     // Optimización
     .pipe(cache(
