@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'sass:math';
 
 html {
     font-size: 62.5%;
@@ -36,7 +37,7 @@ picture {
 
 h1, h2, h3 {
     font-family: v.$fuente_principal;
-    margin: calc(v.$separacion / 2);
+    margin: math.div(v.$separacion, 2);
     font-weight: 300;
     text-align: center;
 }

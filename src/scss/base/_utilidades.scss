@@ -1,8 +1,9 @@
 @use 'variables' as v;
+@use 'sass:math';
 
 .seccion {
-    margin-top: calc(v.$separacion / 2);
-    margin-bottom: calc(v.$separacion / 2);
+    margin-top: math.div(v.$separacion, 2);
+    margin-bottom: math.div(v.$separacion, 2);
 }
 
 .contenido-centrado {
