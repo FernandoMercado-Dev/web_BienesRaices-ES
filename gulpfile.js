@@ -1,23 +1,23 @@
 // Importación de dependencias como modulo de sistema ECMAScript modules
 
 // SASS
-import {src, dest, watch, series, parallel} from 'gulp';
-import * as dartSass from 'sass';
-import gulpSass from 'gulp-sass';
-const sass = gulpSass(dartSass);
-import sourcemaps from 'gulp-sourcemaps';
-import postcss from 'gulp-postcss';
+const { src, dest, watch, series, parallel } = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
 // JS
-import terser from 'gulp-terser-js';
-import concat from 'gulp-concat';
-import rename from 'gulp-rename';
+const terser = require('gulp-terser-js');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
 
 // IMG
-// import imagemin from 'gulp-imagemin';
-import cache from 'gulp-cache';
-import notify from 'gulp-notify';
-import webp from 'gulp-webp';
+const imagemin = require('gulp-imagemin');
+const cache = require('gulp-cache');
+const notify = require('gulp-notify');
+const webp = require('gulp-webp');
 
 const paths = {
     scss: 'src/scss/**/*.scss',
@@ -37,7 +37,10 @@ function compilarSCSS() {
         .on('error', sass.logError))
         // //////
         // Postcss
-        .pipe(postcss())
+        .pipe(postcss([
+            autoprefixer(),
+            cssnano()
+        ]))
         // //////
     .pipe(sourcemaps.write('.'))
     // //////
@@ -103,7 +106,10 @@ function imgWebp() {
 function watchFunciones() {
     watch(paths.scss, compilarSCSS)
     watch(paths.js, compilarJS)
-    watch(paths.img, parallel(optImagenes, imgWebp))
+    watch(paths.img, optImagenes)
+    watch(paths.img, imgWebp)
 }
 
-export default series(compilarSCSS, compilarJS, optImagenes, imgWebp, watchFunciones);
+exports.compilarSCSS = compilarSCSS;
+exports.watchFunciones = watchFunciones;
+exports.default = parallel(compilarSCSS, compilarJS, optImagenes, imgWebp, watchFunciones);
