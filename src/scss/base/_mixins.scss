@@ -1,4 +1,6 @@
 @use 'variables' as v;
+@use 'sass:math';
+@use 'sass:color';
 
 // Media Queries
 @mixin telefono {
@@ -23,4 +25,19 @@
     display: grid;
     gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
+}
+
+@mixin boton($bgColor, $display) {
+    background-color: $bgColor;
+    color: v.$blanco;
+    font-weight: v.$bold;
+    text-decoration: none;
+    padding: 1rem 3rem;
+    text-align: center;
+    margin-top: math.div(v.$separacion, 2);
+    display: $display;
+
+    &:hover {
+        background-color: color.scale($bgColor ,$lightness: -5%);
+    }
 }
