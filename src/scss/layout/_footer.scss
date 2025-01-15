@@ -11,6 +11,11 @@
         padding-top: v.$separacion;
     }
 
+    .navegacion {
+        visibility: visible;
+        opacity: 1;
+    }
+
     .copyright {
         color: v.$blanco;
         text-align: center;

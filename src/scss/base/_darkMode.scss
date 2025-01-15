@@ -1,0 +1,31 @@
+@use '../base/mixins' as m;
+@use '../base/variables' as v;
+@use 'sass:color';
+
+.dark-mode {
+    background-color: color.scale(v.$grisOscuro ,$lightness: -10%);
+
+    p {
+        color: v.$blanco;
+    }
+
+    a, h1, h2, h3, h4 {
+        color: v.$gris;
+    }
+
+    .anuncio {
+        background-color: v.$grisOscuro;
+        border: 1px solid color.scale(v.$grisOscuro ,$lightness: 15%);
+        margin-bottom: 2rem;
+
+        .precio {
+            color: v.$verde;
+        }
+
+        .iconos-caracteristicas {
+            img {
+                filter: invert(100%);
+            }
+        }
+    }
+}
