@@ -8,28 +8,67 @@
     require 'includes/funciones.php';
     incluirTemplate('header');
 
+    // Arreglo con mensajes de errores
+    $errores = [];
+
+    // Ejecutar el código después de que el usuario envie el formulario
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
 
-        $titulo = $_POST['titulo'];
-        $precio = $_POST['precio'];
-        $descripcion = $_POST['descripcion'];
-        $habitaciones = $_POST['habitaciones'];
-        $wc = $_POST['wc'];
-        $estacionamietno = $_POST['estacionamietno'];
-        $vendedorId = $_POST['vendedor'];
+        $titulo = $_POST['titulo'] ?? '';
+        $precio = $_POST['precio'] ?? '';
+        $descripcion = $_POST['descripcion'] ?? '';
+        $habitaciones = $_POST['habitaciones'] ?? '';
+        $wc = $_POST['wc'] ?? '';
+        $estacionamietno = $_POST['estacionamietno'] ?? '';
+        $vendedorId = $_POST['vendedor'] ?? '';
 
-        // Insertar en la base de datos
-        $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$vendedorId'); ";
+        if(!$titulo) {
+            $errores[] = "Debes de añadir un titulo";
+        }
 
-        // echo $query;
+        if(!$precio) {
+            $errores[] = "El precio es Obligatorio";
+        }
 
-        $resultado = mysqli_query($db, $query);
+        if( strlen($descripcion) < 50) {
+            $errores[] = "La descripción es obligatoria y debe tener al menos 50 caracteres";
+        }
 
-        if($resultado) {
-            echo "Insertado Correctamente";
+        if(!$habitaciones) {
+            $errores[] = "El número de habitaciones es obligatorio";
+        }
+
+        if(!$wc) {
+            $errores[] = "El número de baños es obligatorio";
+        }
+
+        if(!$estacionamietno) {
+            $errores[] = "El número de lugares de estacionamiento es obligatorio";
+        }
+
+        if(!$vendedorId) {
+            $errores[] = "Elige un vendedor";
+        }
+
+        // echo "<pre>";
+        // var_dump($errores);
+        // echo "</pre>";
+
+        // Revisar que el arreglo de errores este vacio
+        if(empty($errores)) {
+            // Insertar en la base de datos
+            $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$vendedorId'); ";
+
+            // echo $query;
+
+            $resultado = mysqli_query($db, $query);
+
+            if($resultado) {
+                echo "Insertado Correctamente";
+            }
         }
     }
 ?>
