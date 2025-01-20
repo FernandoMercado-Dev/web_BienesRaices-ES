@@ -4,6 +4,10 @@
     require 'includes/config/database.php';
     $db = conectarDB();
 
+    // Consulta para obterner los vendedores
+    $consulta = " SELECT * FROM vendedores ";
+    $resultado = mysqli_query($db, $consulta);
+
 
     require 'includes/funciones.php';
     incluirTemplate('header');
@@ -32,6 +36,7 @@
         $wc = $_POST['wc'] ?? '';
         $estacionamietno = $_POST['estacionamietno'] ?? '';
         $vendedorId = $_POST['vendedor'] ?? '';
+        $creado = date('Y/m/d');
 
         if(!$titulo) {
             $errores[] = "Debes de añadir un titulo";
@@ -68,7 +73,7 @@
         // Revisar que el arreglo de errores este vacio
         if(empty($errores)) {
             // Insertar en la base de datos
-            $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$vendedorId'); ";
+            $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$creado', '$vendedorId') ";
 
             // echo $query;
 
@@ -127,8 +132,9 @@
 
                 <select name="vendedor">
                     <option value="" selected disabled>-- Selecciona --</option>
-                    <option value="1">Fernando</option>
-                    <option value="2">Karen</option>
+                    <?php while($vendedor = mysqli_fetch_assoc($resultado)): ?>
+                        <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>
+                    <?php endwhile; ?>
                 </select>
             </fieldset>
 
