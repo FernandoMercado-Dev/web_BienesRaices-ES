@@ -7,6 +7,31 @@
 
     require 'includes/funciones.php';
     incluirTemplate('header');
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // echo "<pre>";
+        // var_dump($_POST);
+        // echo "</pre>";
+
+        $titulo = $_POST['titulo'];
+        $precio = $_POST['precio'];
+        $descripcion = $_POST['descripcion'];
+        $habitaciones = $_POST['habitaciones'];
+        $wc = $_POST['wc'];
+        $estacionamietno = $_POST['estacionamietno'];
+        $vendedorId = $_POST['vendedor'];
+
+        // Insertar en la base de datos
+        $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$vendedorId'); ";
+
+        // echo $query;
+
+        $resultado = mysqli_query($db, $query);
+
+        if($resultado) {
+            echo "Insertado Correctamente";
+        }
+    }
 ?>
 
     <main class="contenedor seccion">
