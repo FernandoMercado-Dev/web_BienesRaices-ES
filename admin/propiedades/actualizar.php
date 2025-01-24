@@ -88,9 +88,9 @@
             $errores[] = "Elige un vendedor";
         }
 
-        if(!$imagen['name'] || $imagen['error']) {
-            $errores[] = 'La imagen es Obligatoria';
-        }
+        // if(!$imagen['name'] || $imagen['error']) {
+        //     $errores[] = 'La imagen es Obligatoria';
+        // }
 
         // Validar por tamaño (1 MB máximo)
         $medida = 1000 * 1000;
@@ -106,8 +106,6 @@
         // Revisar que el arreglo de errores este vacio
         if(empty($errores)) {
 
-            // Subida de archivos
-
             // Crear carpeta
             $carpetaImagenes = 'imagenes/';
 
@@ -115,14 +113,27 @@
                 mkdir($carpetaImagenes);
             }
 
-            // Generar un nombre único
-            $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
+            $nombreImagen = '';
 
-            // Subir imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            // Subida de archivos
+
+            if($imagen['name']) {
+                echo "Si hay una nueva imagen";
+
+                // Eliminar imagen previa
+                unlink($carpetaImagenes . $propiedad['imagen']);
+
+                // Generar un nombre único
+                $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
+
+                // Subir imagen
+                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            } else {
+                $nombreImagen = $propiedad['imagen'];
+            }
 
             // Insertar en la base de datos
-            $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ('$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId') ";
+            $query = " UPDATE propiedades SET titulo = '{$titulo}', precio = '{$precio}', imagen = '{$nombreImagen}' descripcion = '{$descripcion}', habitaciones = {$habitaciones}, wc = {$wc}, estacionamiento = {$estacionamiento}, vendedorId = '{$vendedorId}' WHERE id = {$id} ";
 
             // echo $query;
 
@@ -131,7 +142,7 @@
             if($resultado) {
                 // Redireccionar al usuario
 
-                header('Location: /admin?resultado=1');
+                header('Location: /admin?resultado=2');
             }
         }
     }
@@ -148,7 +159,7 @@
             </div>
         <?php endforeach; ?>
 
-        <form class="formulario" action="/admin/propiedades/crear.php" method="POST" enctype="multipart/form-data">
+        <form class="formulario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Información General</legend>
 
