@@ -1,6 +1,13 @@
 <?php
-    // Base de datos
+    // Autenticación de usuario
+    require 'includes/funciones.php';
+    $auth = estadoAutenticado();
 
+    if(!$auth) {
+        header('Location: /');
+    }
+
+    // Base de datos
     require 'includes/config/database.php';
     $db = conectarDB();
 
@@ -8,8 +15,6 @@
     $consulta = " SELECT * FROM vendedores ";
     $resultado = mysqli_query($db, $consulta);
 
-
-    require 'includes/funciones.php';
     incluirTemplate('header');
 
     // Arreglo con mensajes de errores

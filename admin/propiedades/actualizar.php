@@ -1,4 +1,11 @@
 <?php
+    // Autenticación de usuario
+    require 'includes/funciones.php';
+    $auth = estadoAutenticado();
+
+    if(!$auth) {
+        header('Location: /');
+    }
 
     // Validar la URL por ID valido
     $id = $_GET['id'];
@@ -22,8 +29,6 @@
     $consulta = " SELECT * FROM vendedores ";
     $resultado = mysqli_query($db, $consulta);
 
-
-    require 'includes/funciones.php';
     incluirTemplate('header');
 
     // Arreglo con mensajes de errores
