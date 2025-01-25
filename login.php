@@ -38,6 +38,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Llenar el arreglo de la sesión
                 $_SESSION['usuario'] = $usuario['email'];
                 $_SESSION['login'] = true;
+
+                // Redireccionar al iniciar sesión
+                header('Location: /admin');
             } else {
                 $errores[] = "El password es incorrecto";
             }
