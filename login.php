@@ -1,6 +1,7 @@
 <?php
+require 'includes/app.php';
+
 // Conexión a BD
-require 'includes/config/database.php';
 $db = conectarDB();
 
 // Autenticar el usuario
@@ -50,7 +51,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } 
 
-require 'includes/funciones.php';
 incluirTemplate('header');
 ?>
 
