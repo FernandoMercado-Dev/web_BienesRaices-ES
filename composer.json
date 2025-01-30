@@ -8,5 +8,10 @@
             "email": "fernandomercado.b@hotmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "./classes"
+        }
+    }
 }
