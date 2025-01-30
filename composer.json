@@ -1,0 +1,12 @@
+{
+    "name": "fernandomercado-dev/web-bienesraices-es",
+    "description": "Añadiendo al proyecto POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "FernandoMercado-Dev",
+            "email": "fernandomercado.b@hotmail.com"
+        }
+    ],
+    "require": {}
+}
