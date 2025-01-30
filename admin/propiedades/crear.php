@@ -1,14 +1,14 @@
 <?php
     // Autenticación de usuario
-    require 'includes/funciones.php';
-    $auth = estadoAutenticado();
+    require 'includes/app.php';
 
-    if(!$auth) {
-        header('Location: /');
-    }
+    // Usar namespace y crear objeto de la clase
+    use App\Propiedad;
+
+    // Verificacion de autenticado
+    estadoAutenticado();
 
     // Base de datos
-    require 'includes/config/database.php';
     $db = conectarDB();
 
     // Consulta para obterner los vendedores
@@ -25,11 +25,16 @@
     $descripcion = '';
     $habitaciones = '';
     $wc = '';
-    $estacionamietno = '';
+    $estacionamiento = '';
     $vendedorId = '';
 
     // Ejecutar el código después de que el usuario envie el formulario
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $propiedad = new Propiedad($_POST);
+        
+        $propiedad->guardar();
+
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
@@ -43,7 +48,7 @@
         $descripcion = mysqli_real_escape_string($db, $_POST['descripcion'] ?? '');
         $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones'] ?? '');
         $wc = mysqli_real_escape_string($db, $_POST['wc'] ?? '');
-        $estacionamietno = mysqli_real_escape_string($db, $_POST['estacionamietno'] ?? '');
+        $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento'] ?? '');
         $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor'] ?? '');
         $creado = date('Y/m/d');
 
@@ -70,7 +75,7 @@
             $errores[] = "El número de baños es obligatorio";
         }
 
-        if(!$estacionamietno) {
+        if(!$estacionamiento) {
             $errores[] = "El número de lugares de estacionamiento es obligatorio";
         }
 
@@ -111,8 +116,7 @@
             // Subir imagen
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
 
-            // Insertar en la base de datos
-            $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ('$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamietno', '$creado', '$vendedorId') ";
+
 
             // echo $query;
 
@@ -164,14 +168,14 @@
                 <label for="wc">Baños:</label>
                 <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="9" value="<?php echo $wc; ?>">
 
-                <label for="estacionamietno">Estacionamietno:</label>
-                <input type="number" id="estacionamietno" name="estacionamietno" placeholder="Ej: 3" min="1" max="9" value="<?php echo $estacionamietno; ?>">
+                <label for="estacionamiento">Estacionamiento:</label>
+                <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="9" value="<?php echo $estacionamiento; ?>">
             </fieldset>
 
             <fieldset>
                 <legend>Vendedor</legend>
 
-                <select name="vendedor">
+                <select name="vendedorId">
                     <option value="" selected disabled>-- Selecciona --</option>
                     <?php while($vendedor = mysqli_fetch_assoc($resultado)): ?>
                         <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>
