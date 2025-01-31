@@ -10,9 +10,6 @@ use Intervention\Image\ImageManager as Image;
     // Verificacion de autenticado
     estadoAutenticado();
 
-    // Base de datos
-    $db = conectarDB();
-
     // Consulta para obterner los vendedores
     $consulta = " SELECT * FROM vendedores ";
     $resultado = mysqli_query($db, $consulta);

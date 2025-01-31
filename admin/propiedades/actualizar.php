@@ -11,9 +11,6 @@
         header('Location: /admin');
     }
 
-    // Base de datos
-    $db = conectarDB();
-
     // Obtener los datos de la propiedad
     $consulta = " SELECT * FROM propiedades WHERE id = {$id} ";
     $resultado = mysqli_query($db, $consulta);

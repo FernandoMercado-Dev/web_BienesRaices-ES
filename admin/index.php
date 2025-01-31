@@ -3,9 +3,6 @@
     require 'includes/app.php';
     estadoAutenticado();
 
-    // Importar conexion BD
-    $db = conectarDB();
-
     // Escribir el Query
     $query = " SELECT * FROM propiedades ";
 
