@@ -1,11 +1,7 @@
 <?php
     // Autenticación de usuario
-    require 'includes/funciones.php';
-    $auth = estadoAutenticado();
-
-    if(!$auth) {
-        header('Location: /');
-    }
+    require 'includes/app.php';
+    estadoAutenticado();
 
     // Validar la URL por ID valido
     $id = $_GET['id'];
@@ -16,7 +12,6 @@
     }
 
     // Base de datos
-    require 'includes/config/database.php';
     $db = conectarDB();
 
     // Obtener los datos de la propiedad

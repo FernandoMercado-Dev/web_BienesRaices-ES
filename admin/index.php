@@ -1,14 +1,9 @@
 <?php 
     // Autenticación de usuario
-    require 'includes/funciones.php';
-    $auth = estadoAutenticado();
-
-    if(!$auth) {
-        header('Location: /');
-    }
+    require 'includes/app.php';
+    estadoAutenticado();
 
     // Importar conexion BD
-    require 'includes/config/database.php';
     $db = conectarDB();
 
     // Escribir el Query
