@@ -57,7 +57,7 @@ class Propiedad {
         // //////////////
 
         $resultado = self::$db->query($query);
-        debuguear($resultado);
+        return $resultado;
     }
 
     // Encargado de iterar cada atributo; identificando y uniendo los atributos de la DB
@@ -118,18 +118,17 @@ class Propiedad {
             self::$errores[] = "Elige un vendedor";
         }
 
-        // if($this->imagen['name'] || $this->imagen['error']) {
-        //     self::$errores[] = 'La imagen es Obligatoria';
-        // }
-
-        // // Validar por tamaño (1 MB máximo)
-        // $medida = 1000 * 1000;
-
-        // if($this->imagen['size'] > $medida) {
-        //     self::$errores[] = 'La imagen es muy grande';
-        // }
+        if(!$this->imagen) {
+            self::$errores[] = 'La imagen es Obligatoria';
+        }
 
         return self::$errores;
+    }
+
+    public function setImagen($imagen) {
+        if($imagen) {
+            $this->imagen = $imagen;
+        }
     }
 
 }

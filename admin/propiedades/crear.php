@@ -4,6 +4,8 @@
 
     // Usar namespace y crear objeto de la clase
     use App\Propiedad;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
 
     // Verificacion de autenticado
     estadoAutenticado();
@@ -33,38 +35,37 @@
 
         $propiedad = new Propiedad($_POST);
 
+        // Generar un nombre único para la imagen
+        $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
+        if($_FILES['imagen']['tmp_name']) {
+            // Instanciar Intervention Image
+            $manager = new Image(Driver::class);
+            // Leer imagen y escala  imagen
+            $imagen = $manager->read($_FILES['imagen']['tmp_name'])->cover(800, 600);
+            // Envio del nombre unico al metodo de la clase propiedad
+            $propiedad->setImagen($nombreImagen);
+        }
+
         $errores = $propiedad->validar();
-        
 
         // Revisar que el arreglo de errores este vacio
         if(empty($errores)) {
-            $propiedad->guardar();
 
-            // Asignar files hacia una variable
-            $imagen = $_FILES['imagen'];
+            // **SUBIDA DE ARCHIVOS**
 
-            // Crear carpeta
-            $carpetaImagenes = 'imagenes/';
-
-            if(!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
+            // Revision y creacion de la carpeta de imagenes
+            if(!is_dir(CARPETA_IMAGENES)) {
+                mkdir(CARPETA_IMAGENES);
             }
 
-            // Generar un nombre único
-            $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
+            // Guardar la imagen en el servidor (proyecto)
+            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
 
-            // Subir imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            // Guardar en DB
+            $resultado = $propiedad->guardar();
 
-
-
-            // echo $query;
-
-            $resultado = mysqli_query($db, $query);
-
+            // Redireccionar al usuario
             if($resultado) {
-                // Redireccionar al usuario
-
                 header('Location: /admin?resultado=1');
             }
         }
