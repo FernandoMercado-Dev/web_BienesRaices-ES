@@ -131,4 +131,45 @@ class Propiedad {
         }
     }
 
+    // **** Lista todas las propiedades y cambio de arreglo a objeto ****
+    // // Crear query
+    public static function all() {
+        $query = " SELECT * FROM propiedades ";
+
+        $resultado = self::consultarSQL($query);
+
+        return $resultado;
+    }
+
+    // Consulta a la DB
+    public static function consultarSQL($query) {
+        // Consultar la DB
+        $resultado = self::$db->query($query);
+
+        // Iterar resultados
+        $array = [];
+        while($registro = $resultado->fetch_assoc()) {
+            $array[] = self::crearObjeto($registro);
+        }
+
+        // Liberar la memoria
+        $resultado->free();
+
+        // Retornar los resultados
+        return $array;
+    }
+
+    // // Cambiar el array de la DB a un objeto
+    protected static function crearObjeto($registro) {
+        $objeto = new self;
+
+        foreach($registro as $key => $value) {
+            if(property_exists($objeto, $key)) {
+                $objeto->$key = $value;
+            }
+        }
+
+        return $objeto;
+    }
+
 }
