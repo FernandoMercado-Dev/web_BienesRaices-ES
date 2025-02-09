@@ -26,15 +26,17 @@ use Intervention\Image\ImageManager as Image;
     // Ejecutar el código después de que el usuario envie el formulario
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $propiedad = new Propiedad($_POST);
+        // Crear una nueva instancia
+        $propiedad = new Propiedad($_POST['propiedad']);
 
         // Generar un nombre único para la imagen
         $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
-        if($_FILES['imagen']['tmp_name']) {
+
+        if($_FILES['propiedad']['tmp_name']['imagen']) {
             // Instanciar Intervention Image
             $manager = new Image(Driver::class);
             // Leer imagen y escala  imagen
-            $imagen = $manager->read($_FILES['imagen']['tmp_name'])->cover(800, 600);
+            $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
             // Envio del nombre unico al metodo de la clase propiedad
             $propiedad->setImagen($nombreImagen);
         }
