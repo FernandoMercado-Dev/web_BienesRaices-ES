@@ -2,6 +2,8 @@
     // Autenticación de usuario
 
 use App\Propiedad;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
 
     require 'includes/app.php';
     estadoAutenticado();
@@ -25,7 +27,7 @@ use App\Propiedad;
     incluirTemplate('header');
 
     // Arreglo con mensajes de errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     // Ejecutar el código después de que el usuario envie el formulario
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,93 +37,29 @@ use App\Propiedad;
 
         $propiedad->sincronizar($args);
 
-        // Asignar files hacia una variable
-        $imagen = $_FILES['imagen'];
+        // Validación
+        $errores = $propiedad->validar();
 
-        if(!$titulo) {
-            $errores[] = "Debes de añadir un titulo";
+        // Generar un nombre único para la imagen
+        $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
+
+        // Subida de archivos
+        if($_FILES['propiedad']['tmp_name']['imagen']) {
+            // Instanciar Intervention Image
+            $manager = new Image(Driver::class);
+            // Leer imagen y escala  imagen
+            $image = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
+            // Envio del nombre unico al metodo de la clase propiedad
+            $propiedad->setImagen($nombreImagen);
         }
-
-        if(!$precio) {
-            $errores[] = "El precio es Obligatorio";
-        }
-
-        if( strlen($descripcion) < 50) {
-            $errores[] = "La descripción es obligatoria y debe tener al menos 50 caracteres";
-        }
-
-        if(!$habitaciones) {
-            $errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if(!$wc) {
-            $errores[] = "El número de baños es obligatorio";
-        }
-
-        if(!$estacionamiento) {
-            $errores[] = "El número de lugares de estacionamiento es obligatorio";
-        }
-
-        if(!$vendedorId) {
-            $errores[] = "Elige un vendedor";
-        }
-
-        // if(!$imagen['name'] || $imagen['error']) {
-        //     $errores[] = 'La imagen es Obligatoria';
-        // }
-
-        // Validar por tamaño (1 MB máximo)
-        $medida = 1000 * 1000;
-
-        if($imagen['size'] > $medida) {
-            $errores[] = 'La imagen es muy grande';
-        }
-
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "</pre>";
 
         // Revisar que el arreglo de errores este vacio
         if(empty($errores)) {
-
-            // Crear carpeta
-            $carpetaImagenes = 'imagenes/';
-
-            if(!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
-            }
-
-            $nombreImagen = '';
-
-            // Subida de archivos
-
-            if($imagen['name']) {
-                echo "Si hay una nueva imagen";
-
-                // Eliminar imagen previa
-                unlink($carpetaImagenes . $propiedad['imagen']);
-
-                // Generar un nombre único
-                $nombreImagen = md5(uniqid( rand(), true )) . ".jpg";
-
-                // Subir imagen
-                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-            } else {
-                $nombreImagen = $propiedad['imagen'];
-            }
+            // Almacenar imagen
+            $image->save(CARPETA_IMAGENES . $nombreImagen);
 
             // Insertar en la base de datos
-            $query = " UPDATE propiedades SET titulo = '{$titulo}', precio = '{$precio}', imagen = '{$nombreImagen}', descripcion = '{$descripcion}', habitaciones = {$habitaciones}, wc = {$wc}, estacionamiento = {$estacionamiento}, vendedorId = '{$vendedorId}' WHERE id = {$id} ";
-
-            // echo $query;
-
-            $resultado = mysqli_query($db, $query);
-
-            if($resultado) {
-                // Redireccionar al usuario
-
-                header('Location: /admin?resultado=2');
-            }
+            $resultado = $propiedad->guardar();
         }
     }
 ?>
