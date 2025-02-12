@@ -24,8 +24,6 @@ use Intervention\Image\ImageManager as Image;
     $consulta = " SELECT * FROM vendedores ";
     $resultado = mysqli_query($db, $consulta);
 
-    incluirTemplate('header');
-
     // Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();
 
@@ -62,6 +60,8 @@ use Intervention\Image\ImageManager as Image;
             $resultado = $propiedad->guardar();
         }
     }
+
+    incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion">

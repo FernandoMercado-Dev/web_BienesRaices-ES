@@ -57,12 +57,7 @@ use Intervention\Image\ImageManager as Image;
             $imagen->save(CARPETA_IMAGENES . $nombreImagen);
 
             // Guardar en DB
-            $resultado = $propiedad->guardar();
-
-            // Redireccionar al usuario
-            if($resultado) {
-                header('Location: /admin?resultado=1');
-            }
+            $propiedad->guardar();
         }
     }
 ?>
