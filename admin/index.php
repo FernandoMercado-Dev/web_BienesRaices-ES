@@ -4,8 +4,11 @@
     estadoAutenticado();
 
     use App\Propiedad;
+    use App\Vendedor;
+
     // Implementar método para obtener todas las propiedades como objetos
     $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
 
     // Muestra mensaje condicional
     $resultado = $_GET['resultado'] ?? null;
