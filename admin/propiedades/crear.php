@@ -4,6 +4,7 @@
 
     // Usar namespace y crear objeto de la clase
     use App\Propiedad;
+    use App\Vendedor;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager as Image;
 
@@ -12,16 +13,13 @@ use Intervention\Image\ImageManager as Image;
 
     $propiedad = new Propiedad;
 
-    // Consulta para obterner los vendedores
-    $consulta = " SELECT * FROM vendedores ";
-    $resultado = mysqli_query($db, $consulta);
-
-    incluirTemplate('header');
+    
 
     // Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();
 
-
+    // Consulta para obtener todos los vendedores
+    $vendedores = Vendedor::all();
 
     // Ejecutar el código después de que el usuario envie el formulario
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,6 +58,8 @@ use Intervention\Image\ImageManager as Image;
             $propiedad->guardar();
         }
     }
+
+    incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion">
