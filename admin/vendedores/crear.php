@@ -19,7 +19,7 @@ incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">
-    <h1>Registrar Vendedores</h1>
+    <h1>Registrar Vendedor(a)</h1>
 
     <a href="/admin/" class="boton boton-verde">Volver</a>
 
@@ -30,9 +30,9 @@ incluirTemplate('header');
     <?php endforeach; ?>
 
     <form class="formulario" action="/admin/vendedores/crear.php" method="POST">
-        <?php include 'includes/templates/formulario_propiedades.php' ?>
+        <?php include 'includes/templates/formulario_vendedores.php' ?>
 
-        <input type="submit" value="Crear Propiedad" class="boton boton-verde">
+        <input type="submit" value="Registrar Vendedor" class="boton boton-verde">
     </form>
 </main>
 
