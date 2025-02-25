@@ -44,7 +44,7 @@ function compilarSCSS() {
         // //////
     .pipe(sourcemaps.write('.'))
     // //////
-    .pipe(dest('build/css'))
+    .pipe(dest('public/build/css'))
 }
 
 // Compilar JS
@@ -69,7 +69,7 @@ function compilarJS() {
         }))
     .pipe(sourcemaps.write('.'))
     // //////
-    .pipe(dest('build/js'))
+    .pipe(dest('public/build/js'))
 }
 
 // Optimizar imagenes
@@ -84,7 +84,7 @@ async function optImagenes() {
         })
     ))
     // //////
-    .pipe(dest('build/img'))
+    .pipe(dest('public/build/img'))
     // Notificación
     .pipe(notify('Imagen Completada'))
     // //////
@@ -96,7 +96,7 @@ function imgWebp() {
     // Conversión
     .pipe(webp())
     // //////
-    .pipe(dest('build/img'))
+    .pipe(dest('public/build/img'))
     // Notificación
     .pipe(notify({ message: 'Imagen Completada Webp' }))
     // //////
