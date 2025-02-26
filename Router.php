@@ -30,6 +30,14 @@ class Router {
 
     // Muestra una vista
     public function render($view) {
+
+        // Inicia el almacenamiento en memoria durante un tiempo almacenando lo que se esriba despues en el codigo...
+        ob_start();
         include __DIR__ . "/views/$view.php";
+
+        // Limpiamos lo almacenado en la memoria y almacena todo lo anterior en la variable
+        $contenido = ob_get_clean();
+        // Se carga el master layout y carga la variable dentro de este
+        include __DIR__ . "/views/layout.php";
     }
 }
