@@ -29,7 +29,12 @@ class Router {
     }
 
     // Muestra una vista
-    public function render($view) {
+    public function render($view, $datos = []) {
+
+        foreach($datos as $key => $value) {
+            // $$ Variable de la variable (el nombre que este en el array lo usara como nombre de variable)
+            $$key = $value;
+        }
 
         // Inicia el almacenamiento en memoria durante un tiempo almacenando lo que se esriba despues en el codigo...
         ob_start();
