@@ -1,5 +1,3 @@
-
-
 <fieldset>
     <legend>Información General</legend>
 
