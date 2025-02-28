@@ -2,9 +2,11 @@
 
 namespace Controllers;
 
-class VendedorControllers {
-    public static function crear() {
-        echo "Crear Vendedor";
+use MVC\Router;
+
+class VendedorController {
+    public static function crear(Router $router) {
+        echo "crear Vendedor";
     }
 
     public static function actualizar() {
