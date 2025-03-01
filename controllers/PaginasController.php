@@ -43,8 +43,9 @@ class PaginasController {
         ]);
     }
 
-    public static function blog() {
-        echo "Hola ;)";
+    public static function blog(Router $router) {
+        
+        $router->render('paginas/blog');
     }
 
     public static function entrada() {
