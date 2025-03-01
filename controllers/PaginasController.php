@@ -31,8 +31,16 @@ class PaginasController {
         ]);
     }
 
-    public static function propiedad() {
-        echo "Hola ;)";
+    public static function propiedad(Router $router) {
+
+        $id = validarORedireccionar('/propiedades');
+
+        // Buscar la propiedad de su id
+        $propiedad = Propiedad::find($id);
+
+        $router->render('paginas/propiedad', [
+            'propiedad' => $propiedad
+        ]);
     }
 
     public static function blog() {
