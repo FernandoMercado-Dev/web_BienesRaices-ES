@@ -30,7 +30,7 @@
             <legend>Información sobre la Propiedad</legend>
 
             <label for="opciones">Vende o compra</label>
-            <select name="" id="opciones" name="contacto[tipo]" require>
+            <select id="opciones" name="contacto[tipo]" require>
                 <option value="" disabled selected>-- Seleccione --</option>
                 <option value="Compra">Compra</option>
                 <option value="Vende">Vende</option>
@@ -47,10 +47,10 @@
 
             <div class="forma-contacto">
                 <label for="contactar-telefono">Teléfono</label>
-                <input name="contacto" type="radio" value="telefono" id="contactar-telefono" name="contacto[contacto]" require>
+                <input type="radio" value="telefono" id="contactar-telefono" name="contacto[contacto]" require>
 
                 <label for="contactar-email">E-mail</label>
-                <input name="contacto" type="radio" value="email" id="contactar-email" name="contacto[contacto]" require>
+                <input type="radio" value="email" id="contactar-email" name="contacto[contacto]" require>
             </div>
 
             <p>Si eligió teléfono, elija la fecha y la hora</p>
