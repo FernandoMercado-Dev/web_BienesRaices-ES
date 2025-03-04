@@ -5,7 +5,7 @@ namespace Controllers;
 use MVC\Router;
 use Model\Admin;
 
-class LoginController{
+class LoginController {
 
     public static function login(Router $router) {
 
@@ -14,15 +14,28 @@ class LoginController{
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $auth = new Admin($_POST);
-
+            
             $errores = $auth->validar();
 
             if(empty($errores)) {
-                // Verificar si el usuario existe
+                
+                $resultado = $auth->existeUsuario();
 
-                // Verificar el password
+                if(!$resultado) {
+                    // Verificar si el usuario existe
+                    $errores = Admin::getErrores();
+                } else {
+                    // Verificar el password
+                    $autenticado = $auth->comprobarPassword($resultado);
 
-                // Verificar el usuario
+                    if($autenticado) {
+                        // Autenticar el usuario
+                        $auth->autenticar();
+                    } else {
+                        // Password Incorrecto
+                        $errores = Admin::getErrores();
+                    }
+                }
             }
         }
         
