@@ -14,8 +14,8 @@ class Admin extends ActiveRecord {
     public function __construct($args = [])
     {
         $this->id = $args['id'] ?? null;
-        $this->id = $args['email'] ?? '';
-        $this->id = $args['password'] ?? '';
+        $this->email = $args['email'] ?? '';
+        $this->password = $args['password'] ?? '';
     }
 
     public function validar() {
@@ -27,5 +27,41 @@ class Admin extends ActiveRecord {
         }
 
         return self::$errores;
+    }
+
+    public function existeUsuario() {
+        // Revisar si un usuario existe
+        $query = " SELECT * FROM  " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
+
+        $resultado = self::$db->query($query);
+
+        if(!$resultado->num_rows) {
+            self::$errores[] = 'El usuario no existe';
+            return;
+        }
+
+        return $resultado;
+    }
+
+    public function comprobarPassword($resultado) {
+        $usuario = $resultado->fetch_object();
+
+        $autenticado = password_verify($this->password, $usuario->password);
+
+        if(!$autenticado) {
+            self::$errores[] = 'El password es incorrecto';
+        }
+
+        return $autenticado;
+    }
+
+    public function autenticar() {
+        session_start();
+
+        // Llenar el arreglo de sesión
+        $_SESSION['usuario'] = $this->email;
+        $_SESSION['login'] = true;
+
+        header('Location: /admin');
     }
 }
